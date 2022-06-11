@@ -1,0 +1,525 @@
+snippet snip "Description" b
+	/*yes*/
+endsnippet
+
+
+snippet prime_checker
+
+bool isPrime(int n) {
+    if (n == 1)
+        return false;
+
+    for (int i = 2; i * i <= n; i++) {
+        if (n % i == 0) {
+            return false;
+        }
+    }
+    return true;
+} // O(sqrt(n))
+
+endsnippet
+
+snippet binarysearch
+
+int binarysearch(int a[], int ele, int n) {
+    int l = 0, r = n - 1;
+    while (r >= l) {
+        int mid = (l + r) / 2;
+        if (a[mid] == ele) {
+            return mid;
+        } else {
+            if (a[mid] > ele) {
+                r = mid - 1;
+            } else {
+                l = mid + 1;
+            }
+        }
+    }
+    return -1;
+}
+
+endsnippet
+
+snippet binary_search_right
+
+int Binary_Search_right(int a[], int ele, int n) // right most closest element
+{
+    int l = -1, r = n;
+    while (r > l + 1) {
+        int mid = (l + r) / 2;
+        if (a[mid] < ele) {
+            l = mid;
+        } else {
+            r = mid;
+        }
+    }
+    return r + 1;
+}
+
+endsnippet
+
+snippet binary_search_left
+
+int Binary_Search_left(vector<int> a, int ele,
+        int n) // left most closest element
+{
+    a.resize(n);
+    int l = -1, r = n;
+    while (r > l + 1) {
+        int mid = (l + r) / 1;
+        if (a[mid] <= ele) {
+            l = mid;
+        } else {
+            r = mid;
+        }
+    }
+    return l + 1;
+}
+
+endsnippet
+
+snippet prime_upto_n
+
+// prime upto n
+bool is_prime[90000001];
+vector<int> prime;
+void seive() {
+    int maxN = 90000000;
+    is_prime[0] = is_prime[1] = false;
+
+    for (int i = 2; i * i <= maxN; i++) {
+        if (!is_prime[i]) {
+            for (int j = i * i; j <= maxN; j += i) {
+                is_prime[j] = true;
+            }
+        }
+    }
+    for (int i = 2; i <= maxN; i++) {
+        if (!is_prime[i])
+            prime.push_back(i);
+    }
+} // O(nlnln(n))
+
+endsnippet
+
+snippet prime_factor
+
+map<int, int> factor_map;
+void primeFactor(int N) {
+    for (int i = 2; i * i <= N; i++) {
+        if (N % i == 0) {
+            int cnt = 0;
+            while (N % i == 0) {
+                cnt++, N /= i;
+            }
+            factor_map[i] = cnt;
+        }
+    }
+    if (N > 1)
+        factor_map[N] = 1;
+} // O(sqrt(N))
+
+endsnippet
+
+snippet seive_factor
+
+// prime factor using seive
+int ar[1000001];
+void seive_factor() {
+    int maxN = 1000000;
+    for (int i = 1; i <= maxN; i++)
+        ar[i] = -1;
+
+    for (int i = 2; i <= maxN; i++) {
+        if (ar[i] == -1) {
+            for (int j = i; j <= maxN; j += i) {
+                if (ar[j] == -1) {
+                    ar[j] = i;
+                }
+            }
+        }
+    }
+}
+
+endsnippet
+
+snippet getfactor
+
+vector<int> getFactor(int n) {
+    vector<int> ret;
+    while (n != 1) {
+        ret.push_back(ar[n]);
+        n = n / ar[n];
+    }
+    return ret;
+}
+
+endsnippet
+
+snippet power
+
+int power(int a, int n, int m) {
+    int res = 1;
+
+    while (n) {
+        if (n % 2) {
+            res = (res * a) % m, n--;
+        } else {
+            a = (a * a) % m, n /= 2;
+        }
+    }
+    return res;
+} // O(log(n))
+
+endsnippet
+
+snippet gcd
+
+int gcd(int a, int b) {
+    if (b == 0) {
+        return a;
+    } else {
+        return gcd(b, a % b);
+    }
+}
+
+endsnippet
+
+snippet pnc
+
+int F[1000001];
+int C(int n, int k, int P) {
+    if (k > n)
+        return 0;
+
+    int res = F[n];
+    res = (res * power(F[k], P - 2, P)) % P;
+    res = (res * power(F[n - k], P - 2, P)) % P;
+    return res;
+}
+
+endsnippet
+
+snippet round
+
+int round(int n, int m) {
+    if ((int)(n / m) != ((double)n / (double)m)) {
+        return n / m + 1;
+    } else {
+        return n / m;
+    }
+}
+
+endsnippet
+
+snippet phi_for_n_queryies
+
+int phi_array[10000001];
+void phi_for_n_queryies(int n) {
+    for (int i = 1; i <= n; i++) {
+        phi_array[i] = i;
+    }
+    for (int i = 2; i <= n; i++) {
+        if (phi_array[i] == i) {
+            for (int j = i; j <= n; j += i) {
+                phi_array[j] /= i;
+                phi_array[j] *= (i - 1);
+            }
+        }
+    }
+}
+
+endsnippet
+
+snippet phi
+
+int phi(int n) { // count co-prime upto n
+    int res = n;
+    for (int i = 2; i * i <= n; i++) {
+        if (n % i == 0) {
+            res /= i;
+            res *= (i - 1);
+
+            while (n % i == 0) {
+                n /= i;
+            }
+        }
+    }
+    if (n > 1) {
+        res /= n, res *= (n - 1);
+    }
+
+    return res;
+}
+
+endsnippet
+
+snippet theory
+
+/* MOD
+   a == b (mod n)  => a = n*k + b
+   => a^k == b^k (mod n)
+
+   x^y (mod n)     => (x%n)^y
+
+   (R/N)%P => (R%P) * (X%P)   [ (N*X)%P = 1 ] iff GCD(N,P) = 1
+
+   if P is prime Number (x^(p-1)%13 = 1) => X = a^(-1) = a^(P-2) (mod P)
+   */
+
+/* NUMBER OF INTEGER CO-PRIME WITH P
+
+   P^(x-1)(P-1)
+   */
+
+/* KNAPSACK
+
+   Subset with sum equal to k (y/n)
+   Subset sum equal to k (count)
+   Equil sum subset(min diff) (y/n)
+   Subset diff min (count)
+   Diff b/w subset equal k (count)
+   target sum (count)
+   */
+endsnippet
+
+snippet printDivisors
+
+vector<int> printDivisors(int n) {
+    vector<int> a;
+    for (int i = 1; i * i <= n; i++) {
+        if (n % i == 0) {
+            if (n / i == i)
+                a.push_back(i);
+
+            else
+                a.push_back(i), a.push_back(n / i);
+        }
+    }
+    return a;
+}
+endsnippet
+
+snippet reversed_number
+
+int reverse(int n) {
+    int reversed_number = 0, remainder;
+    while (n != 0) {
+        remainder = n % 10;
+        reversed_number = reversed_number * 10 + remainder;
+        n /= 10;
+    }
+    return reversed_number;
+}
+endsnippet
+
+snippet adj_mat_for_graph
+
+void adj_mat_for_graph(int k, int n) {
+    /* int n; */
+    /* cin >> n; // number of vertices */
+    no_of_vertix = n;
+    adj_matrix = new int *[no_of_vertix];
+    for (int i = 0; i < no_of_vertix; i++) {
+        adj_matrix[i] = new int[no_of_vertix];
+    }
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            adj_matrix[i][j] = 0;
+        }
+    }
+    /* int k; // number of edges */
+    /* cin >> k; */
+    for (int i = 0; i < k; i++) {
+        int h, m;
+        cin >> h >> m;
+        adj_matrix[h - 1][m - 1] = 1;
+    }
+    /* for(int i = 0;i<n;i++){ */
+    /*     for(int j = 0;j<n;j++){ */
+    /*         cout << adj_matrix[i][j] << " "; */
+    /*     } */
+    /*     cout << endl; */
+    /* } */
+}
+endsnippet
+
+snippet bfs
+
+void bfs(int root, int n, int k) {
+    int start;
+    start = root - 1;
+    queue<int> qu;
+    bool vis[n];
+    qu.push(start);
+    vis[start] = true;
+    while (qu.size() != 0) {
+        for (int i = 0; i < n; i++) {
+            if (adj_matrix[qu.front()][i] == 1 && vis[i] != true) {
+                qu.push(i);
+                vis[i] = true;
+            }
+        }
+        qu.pop();
+    }
+}
+endsnippet
+
+snippet dfs
+
+void dfs(int n, int k, vector<int> stk, bool vis[]) {
+    parr(stk);
+    for (int i = 0; i < n; i++) {
+        if (adj_matrix[stk[stk.size() - 1]][i] == 1 && vis[i] == false) {
+            stk.push_back(i);
+            vis[i] = true;
+            /* parr(stk); */
+            dfs(n, k, stk, vis);
+        }
+    }
+    stk.pop_back();
+}
+
+void dfs_int(int root, int n, int k) {
+    bool vis[n];
+    for (int i = 0; i < n; i++) {
+        vis[i] = 0;
+    }
+    /* memset(vis,false,n); */
+    vector<int> stk;
+    stk.push_back(root - 1);
+    vis[root - 1] = true;
+    dfs(n, k, stk, vis);
+    parr(vis);
+}
+endsnippet
+
+snippet target_sum
+
+vector<int> isSum(vector<int> p,int sum,int n){
+
+    bool dp[n+1][sum+1];
+    for(int i = 0;i<=n;i++){
+        for(int j = 0;j<= sum;j++){
+            if(j == 0) dp[i][j] = true;
+            if(i == 0) dp[i][j] = false;
+        }
+    }
+
+    dp[0][0] = true;
+
+    for(int i = 1;i<=n;i++){
+        for(int j = 1;j<=sum;j++){
+            if(p[i-1] > j){
+                dp[i][j] = dp[i-1][j];
+            }
+            else{
+                dp[i][j] = dp[i-1][j] || dp[i-1][j-p[i-1]];
+            }
+        }
+    }
+
+    vector<int> arr;
+    arr.push_back(dp[n][sum]);
+    if(dp[n][sum] == 1)
+    {
+        while(sum > 0){
+            for(int j = 1;j<=n;j++){
+                if(dp[j][sum] == 1){
+                    arr.push_back ( p[j-1] );
+                    sum -= p[j-1];
+                    break;
+                }
+            }
+        }
+    }
+    return arr;
+}
+endsnippet
+
+snippet shar "My template"
+/*
+ _________________________________________
+/                                         \
+| ; Title: cp template                    |
+| ; Author:  Sharishth Singh              |
+| ; Date: 22 May 2022                     |
+\                                         /
+ -----------------------------------------
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+*/
+#include "bits/stdc++.h"
+#include <vector>
+using namespace std;
+#define parr(x)                                                                 \
+    cout << #x << ' ' << '[' << ' ';                                            \
+for (auto z : x)                                                                \
+cout << z << ' ';                                                               \
+cout << ']' << endl
+#define pmap(x)                                                                 \
+    cout << #x << ' ' << '{' << ' ';                                            \
+for (auto z : x)                                                                \
+cout << '(' << ' ' << z.first << ' ' << z.second << ' ' << ')' << ' ';          \
+cout << '}' << endl
+#define fast                                                                    \
+    ios_base::sync_with_stdio(false);                                           \
+cin.tie(NULL);                                                                  \
+cout.tie(NULL);
+#define ff first
+#define ss second
+#undef int
+#define int long long int
+/* #define endl '\n' */
+#define MOD 1000000007
+#define pi 3.1415926535
+#define ve vector
+int static memorized_dp_array[1001][1001];
+int no_of_vertix = 0;
+int **adj_matrix;
+
+
+void solution() {
+	$0
+}
+
+
+int32_t main() {
+    /* memset(memorized_dp_array, -1, sizeof(memorized_dp_array)); */
+
+    /* uncomment below lines to nCk... */
+
+    /* F[0] = F[1] = 1; */
+    /* for(int i = 2;i <= 1000000;i++){ */
+    /*     F[i] = (F[i-1]*i)%MOD; */
+    /* } */
+    int test_cases = 1;
+
+    /* phi_for_n_queryies(100000); */
+    /* cout << phi_array[5] << endl; */
+
+    cin >> test_cases;
+
+    /* seive(); // no. of prime till k */
+    /* seive_factor(); // prime factor of a number */
+
+    //  destination    <- adj_matrix
+    // s
+    // t
+    // a
+    // r
+    // t
+    /* int a = 1; */
+    while (test_cases--) {
+        /* cout << "Case #"<< a << ": "; */
+        /* a++; */
+        fast;
+        solution();
+
+    }
+}
+
+endsnippet
