@@ -27,6 +27,7 @@ let g:nvim_tree_auto_close = 1
 " autocmd BufWritePre * %s/\n\+\%$//e
 
 call plug#begin('~/.local/share/nvim/plugged')
+Plug 'lewis6991/gitsigns.nvim'
 Plug 'MunifTanjim/nui.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-neo-tree/neo-tree.nvim'
@@ -48,7 +49,6 @@ Plug 'yggdroot/indentline'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'jiangmiao/auto-pairs'
 Plug 'kyazdani42/nvim-web-devicons'
-" Plug 'kyazdani42/nvim-tree.lua'
 Plug 'akinsho/bufferline.nvim'
 Plug 'tpope/vim-commentary'
 Plug 'folke/twilight.nvim'
@@ -56,6 +56,47 @@ Plug 'folke/zen-mode.nvim'
 call plug#end()
 
 lua << EOF
+require('gitsigns').setup {
+  signs = {
+    add          = {hl = 'GitSignsAdd'   , text = '│', numhl='GitSignsAddNr'   , linehl='GitSignsAddLn'},
+    change       = {hl = 'GitSignsChange', text = '│', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
+    delete       = {hl = 'GitSignsDelete', text = '_', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
+    topdelete    = {hl = 'GitSignsDelete', text = '‾', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
+    changedelete = {hl = 'GitSignsChange', text = '~', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
+  },
+  signcolumn = true,  -- Toggle with `:Gitsigns toggle_signs`
+  numhl      = false, -- Toggle with `:Gitsigns toggle_numhl`
+  linehl     = false, -- Toggle with `:Gitsigns toggle_linehl`
+  word_diff  = false, -- Toggle with `:Gitsigns toggle_word_diff`
+  watch_gitdir = {
+    interval = 1000,
+    follow_files = true
+  },
+  attach_to_untracked = true,
+  current_line_blame = false, -- Toggle with `:Gitsigns toggle_current_line_blame`
+  current_line_blame_opts = {
+    virt_text = true,
+    virt_text_pos = 'eol', -- 'eol' | 'overlay' | 'right_align'
+    delay = 1000,
+    ignore_whitespace = false,
+  },
+  current_line_blame_formatter = '<author>, <author_time:%Y-%m-%d> - <summary>',
+  sign_priority = 6,
+  update_debounce = 100,
+  status_formatter = nil, -- Use default
+  max_file_length = 40000,
+  preview_config = {
+    -- Options passed to nvim_open_win
+    border = 'single',
+    style = 'minimal',
+    relative = 'cursor',
+    row = 0,
+    col = 1
+  },
+  yadm = {
+    enable = false
+  },
+}
 require("neo-tree").setup({
         close_if_last_window = false, -- Close Neo-tree if it is the last window left in the tab
         popup_border_style = "rounded",
@@ -613,6 +654,7 @@ let g:vim_current_word#highlight_twins = 1
 " The word under cursor:
 let g:vim_current_word#highlight_current_word = 1
 let g:vim_current_word#highlight_only_in_focused_window = 1
+let g:gitblame_enabled = 1
 " hi CurrentWord guifg=#000000 guibg=#444444
 " hi CurrentWordTwins guibg=#444444
 let g:nvim_tree_auto_open = 1 " will open the tree when the package is loaded.
