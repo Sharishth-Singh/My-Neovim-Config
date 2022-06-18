@@ -55,6 +55,7 @@ Plug 'folke/twilight.nvim'
 Plug 'folke/zen-mode.nvim'
 call plug#end()
 
+autocmd FileType vim :Gitsign toggle_deleted
 lua << EOF
 require('gitsigns').setup {
   signs = {
@@ -73,7 +74,7 @@ require('gitsigns').setup {
     follow_files = true
   },
   attach_to_untracked = true,
-  current_line_blame = false, -- Toggle with `:Gitsigns toggle_current_line_blame`
+  current_line_blame = true, -- Toggle with `:Gitsigns toggle_current_line_blame`
   current_line_blame_opts = {
     virt_text = true,
     virt_text_pos = 'eol', -- 'eol' | 'overlay' | 'right_align'
@@ -165,7 +166,7 @@ require("neo-tree").setup({
         },
         window = {
           position = "left",
-          width = 40,
+          width = 30,
           mapping_options = {
             noremap = true,
             nowait = true,
@@ -228,7 +229,7 @@ require("neo-tree").setup({
               --"thumbs.db"
             },
           },
-          follow_current_file = false, -- This will find and focus the file in the active buffer every
+          follow_current_file = ture, -- This will find and focus the file in the active buffer every
                                        -- time the current file is changed while the tree is open.
           group_empty_dirs = false, -- when true, empty folders will be grouped together
           hijack_netrw_behavior = "open_default", -- netrw disabled, opening a directory opens neo-tree
@@ -280,7 +281,7 @@ require("neo-tree").setup({
         }
       })
 vim.opt.list = true
-vim.opt.listchars:append("space:·")
+-- vim.opt.listchars:append("space:·")
 -- vim.opt.listchars:append("space:•")
 vim.opt.listchars:append("eol:↴")
 require("indent_blankline").setup {
@@ -386,9 +387,9 @@ let g:vim_monokai_tasty_italic = 1                    " allow italics, set this 
 " endfunction
 
 " inoremap <silent><expr> <tab>
-"          \ pumvisible() ? "\<c-n>" :
-"          \ <sid>check_back_space() ? "\<tab>" :
-"          \ coc#refresh()
+"          pumvisible() ? "\<c-n>" :
+"          <sid>check_back_space() ? "\<tab>" :
+"          coc#refresh()
 
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
@@ -416,7 +417,6 @@ if exists('*complete_info')
 else
   inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 endif
-
 
 " let g:cursorword_min_width = 1
 " let g:cursorword_max_width = 50
@@ -446,7 +446,6 @@ require'nvim-treesitter'.define_modules {
       }
    }
 EOF
-
 
 " require'nvim-tree'.setup { -- BEGIN_DEFAULT_OPTS
 " auto_reload_on_write = true,
@@ -621,14 +620,13 @@ EOF
 "    },
 " } -- END_DEFAULT_OPTS
 
-
-
 " require'nvim-treesitter.configs'.setup {
 "   rainbow = {
 "     enable = true
 "   }
 " }
-autocmd insertleave * :%s/\s\+$//e
+
+" autocmd insertleave * :%s/\s\+$//e
 map <a-h> <c-w>h
 map <a-j> <c-w>j
 map <a-k> <c-w>k
@@ -637,8 +635,7 @@ map <a-l> <c-w>l
 let g:airline_theme = 'dracula'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
-autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() |
-         \ quit | endif
+" autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
 au FocusLost * :wa
 nnoremap <leader>jj /solution<cr>
 autocmd FileType c,h,cpp,hpp,json nnoremap <buffer> <silent> <leader>gh :ClangdSwitchSourceHeader<CR>
