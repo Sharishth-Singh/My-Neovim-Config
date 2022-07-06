@@ -1,15 +1,19 @@
 {
-    "clangd.path": "~/.config/coc/extensions/coc-clangd-data/install/14.0.3/clangd_14.0.3/bin/clangd",
-    "coc.preferences.formatOnSaveFiletypes": ["css", "markdown, cpp, json"],
-    "suggest.noselect": false,
-    "diagnostic-languageserver.enable": {
-        "type": "boolean",
-        "default": true,
-        "description": "enable this extension?"
-    },
-    "diagnostic-languageserver.formatters": {
-        "type": "object",
-        "default": {},
-        "description": "formatters config same as diagnostic-languageserver's formatters config"
-    },
+   "clangd.path": "~/.config/coc/extensions/coc-clangd-data/install/14.0.3/clangd_14.0.3/bin/clangd",
+   "coc.preferences.formatOnSaveFiletypes": ["css", "markdown, cpp, json"],
+   "suggest.noselect": false,
+   "diagnostic.virtualText":true,
+   "diagnostic.messageTarget": "echo",
+   "diagnostic.virtualTextCurrentLineOnly":false,
+   "diagnostic.autoRefresh": true,
+   "diagnostic-languageserver.enable": {
+      "type": "boolean",
+      "default": true,
+      "description": "enable this extension?"
+   },
+   "diagnostic-languageserver.formatters": {
+      "type": "object",
+      "default": {},
+      "description": "formatters config same as diagnostic-languageserver's formatters config"
+   }
 }

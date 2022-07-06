@@ -6,7 +6,7 @@ set hidden
 set scrolloff=10
 set ai
 set si
-set ignorecase
+" set ignorecase
 set clipboard=unnamedplus
 set cursorline
 set termguicolors
@@ -43,11 +43,13 @@ Plug 'tpope/vim-surround'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'jackguo380/vim-lsp-cxx-highlight'
 Plug 'sonph/onehalf', { 'rtp': 'vim' }
-Plug 'projekt0n/github-nvim-theme' " theme
+" Plug 'projekt0n/github-nvim-theme' " theme
 Plug 'vim-airline/vim-airline' " the statusbar
+Plug 'vim-airline/vim-airline-themes'
 Plug 'yggdroot/indentline'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'jiangmiao/auto-pairs'
+Plug 'steelsojka/pears.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'akinsho/bufferline.nvim'
 Plug 'tpope/vim-commentary'
@@ -57,6 +59,7 @@ call plug#end()
 
 autocmd FileType vim :Gitsign toggle_deleted
 lua << EOF
+-- require "pears".setup()
 require('gitsigns').setup {
   signs = {
     add          = {hl = 'GitSignsAdd'   , text = '│', numhl='GitSignsAddNr'   , linehl='GitSignsAddLn'},
@@ -166,7 +169,7 @@ require("neo-tree").setup({
         },
         window = {
           position = "left",
-          width = 30,
+          width = 25,
           mapping_options = {
             noremap = true,
             nowait = true,
@@ -214,7 +217,7 @@ require("neo-tree").setup({
         nesting_rules = {},
         filesystem = {
           filtered_items = {
-            visible = false, -- when true, they will just be displayed differently than normal items
+            visible = true, -- when true, they will just be displayed differently than normal items
             hide_dotfiles = true,
             hide_gitignored = true,
             hide_hidden = true, -- only works on Windows for hidden files/directories
@@ -229,7 +232,7 @@ require("neo-tree").setup({
               --"thumbs.db"
             },
           },
-          follow_current_file = ture, -- This will find and focus the file in the active buffer every
+          follow_current_file = true, -- This will find and focus the file in the active buffer every
                                        -- time the current file is changed while the tree is open.
           group_empty_dirs = false, -- when true, empty folders will be grouped together
           hijack_netrw_behavior = "open_default", -- netrw disabled, opening a directory opens neo-tree
@@ -367,7 +370,7 @@ augroup qs_colors
    autocmd colorscheme * highlight quickscopesecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline
 augroup end
 
-nnoremap s :%s//gc<left><left>
+nnoremap s :%s//gc<left><left><left>
 
 autocmd filetype * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 autocmd filetype cpp /solution
@@ -390,6 +393,7 @@ let g:vim_monokai_tasty_italic = 1                    " allow italics, set this 
 "          pumvisible() ? "\<c-n>" :
 "          <sid>check_back_space() ? "\<tab>" :
 "          coc#refresh()
+
 
 inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
@@ -641,6 +645,7 @@ nnoremap <leader>jj /solution<cr>
 autocmd FileType c,h,cpp,hpp,json nnoremap <buffer> <silent> <leader>gh :ClangdSwitchSourceHeader<CR>
 nnoremap <C-n> :NeoTreeFloatToggle<CR>
 nnoremap <C-b> :NeoTreeFloatToggle buffers<CR>
+vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
 " nnoremap <leader>r :NvimTreeRefresh<CR>
 " nnoremap <leader>n :NvimTreeFindFile<CR>
 " nnoremap <silent>ff :Neoformat<cr>
@@ -655,4 +660,6 @@ let g:gitblame_enabled = 1
 " hi CurrentWord guifg=#000000 guibg=#444444
 " hi CurrentWordTwins guibg=#444444
 let g:nvim_tree_auto_open = 1 " will open the tree when the package is loaded.
+let g:airline#extensions#tabline#enabled = 1
+let g:AutoPairsFlyMode = 0
 " let g:indentLine_char = '❯'
