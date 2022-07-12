@@ -27,6 +27,8 @@ let g:nvim_tree_auto_close = 1
 " autocmd BufWritePre * %s/\n\+\%$//e
 
 call plug#begin('~/.local/share/nvim/plugged')
+Plug 'olimorris/onedarkpro.nvim'
+Plug 'raghur/vim-ghost', {'do': ':GhostInstall'}
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'MunifTanjim/nui.nvim'
 Plug 'nvim-lua/plenary.nvim'
@@ -59,6 +61,36 @@ call plug#end()
 
 autocmd FileType vim :Gitsign toggle_deleted
 lua << EOF
+require("onedarkpro").setup{
+  -- Theme can be overwritten with 'onedark' or 'onelight' as a string
+  colors = {}, -- Override default colors by specifying colors for 'onelight' or 'onedark' themes
+  hlgroups = {}, -- Override default highlight groups
+  filetype_hlgroups = {}, -- Override default highlight groups for specific filetypes
+  plugins = { -- Override which plugins highlight groups are loaded
+      native_lsp = true,
+      polygot = true,
+      treesitter = true,
+      -- NOTE: Other plugins have been omitted for brevity
+  },
+  styles = {
+      strings = "NONE", -- Style that is applied to strings
+      comments = "italic", -- Style that is applied to comments
+      keywords = "NONE", -- Style that is applied to keywords
+      functions = "NONE", -- Style that is applied to functions
+      variables = "NONE", -- Style that is applied to variables
+      virtual_text = "NONE", -- Style that is applied to virtual text
+  },
+  options = {
+      bold = false, -- Use the themes opinionated bold styles?
+      italic = true, -- Use the themes opinionated italic styles?
+      underline = false, -- Use the themes opinionated underline styles?
+      undercurl = true, -- Use the themes opinionated undercurl styles?
+      cursorline = true, -- Use cursorline highlighting?
+      transparency = false, -- Use a transparent background?
+      terminal_colors = true, -- Use the theme's colors for Neovim's :terminal?
+      window_unfocussed_color = false, -- When the window is out of focus, change the normal background?
+  }
+}
 -- require "pears".setup()
 require('gitsigns').setup {
   signs = {
@@ -381,7 +413,8 @@ noremap <leader>p :-1r !xclip -o -sel clip<cr>
 noremap <leader>y :'<,'>w !xclip -selection clipboard<cr><cr>
 
 " colorscheme github_*
-colorscheme dracula
+" colorscheme dracula
+colorscheme onedarkpro
 let g:vim_monokai_tasty_italic = 1                    " allow italics, set this before the colorscheme
 " let g:neoformat_basic_format_align = 1 " let g:cpp_class_scope_highlight = 1
 " function! s:check_back_space() abort
@@ -635,17 +668,24 @@ map <a-h> <c-w>h
 map <a-j> <c-w>j
 map <a-k> <c-w>k
 map <a-l> <c-w>l
+map w b
 "let g:airline_theme = 'onehalfdark'
-let g:airline_theme = 'dracula'
+" let g:airline_theme = 'dracula'
+let g:airline_theme = 'onedark'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 " autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
 au FocusLost * :wa
-nnoremap <leader>jj /solution<cr>
+" nnoremap <silent>q :q<cr>
 autocmd FileType c,h,cpp,hpp,json nnoremap <buffer> <silent> <leader>gh :ClangdSwitchSourceHeader<CR>
 nnoremap <C-n> :NeoTreeFloatToggle<CR>
 nnoremap <C-b> :NeoTreeFloatToggle buffers<CR>
-vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
+" au FileType cpp vsplit input.txt
+" au VimEnter * :wincmd l
+" au VimEnter * :vertical resize +40 noremap <C-r>
+" vnoremap r "hy:%s/<C-r>h//gc<left><left><left>
+" autocmd! FileType vsplit wincmd R
+" nnoremap <leader>jj :vsp input.txt<cr>:vertical resize -40<cr>:TwilightEnable<cr>
 " nnoremap <leader>r :NvimTreeRefresh<CR>
 " nnoremap <leader>n :NvimTreeFindFile<CR>
 " nnoremap <silent>ff :Neoformat<cr>
@@ -662,4 +702,14 @@ let g:gitblame_enabled = 1
 let g:nvim_tree_auto_open = 1 " will open the tree when the package is loaded.
 let g:airline#extensions#tabline#enabled = 1
 let g:AutoPairsFlyMode = 0
+function! s:SetupGhostBuffer()
+    if match(expand("%:a"), '\v/ghost-(github|reddit)\.com-')
+        set ft=cpp
+    endif
+endfunction
+
+augroup vim-ghost
+    au!
+    au User vim-ghost#connected call s:SetupGhostBuffer()
+augroup END
 " let g:indentLine_char = '❯'
