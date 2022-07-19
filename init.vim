@@ -27,6 +27,8 @@ let g:nvim_tree_auto_close = 1
 " autocmd BufWritePre * %s/\n\+\%$//e
 
 call plug#begin('~/.local/share/nvim/plugged')
+Plug 'phaazon/hop.nvim'
+Plug 'p00f/nvim-ts-rainbow'
 Plug 'olimorris/onedarkpro.nvim'
 Plug 'raghur/vim-ghost', {'do': ':GhostInstall'}
 Plug 'lewis6991/gitsigns.nvim'
@@ -61,6 +63,24 @@ call plug#end()
 
 autocmd FileType vim :Gitsign toggle_deleted
 lua << EOF
+require'hop'.setup { keys = 'etovxqpdygfblzhckisuran' }
+require("nvim-treesitter.configs").setup{
+rainbow = {
+   enable = true,
+   colors = {
+      "#68a0b0",
+      "#946EaD",
+      "#c7aA6D",
+      -- "Gold",
+      -- "Orchid",
+      -- "DodgerBlue",
+      -- "Cornsilk",
+      -- "Salmon",
+      -- "LawnGreen",
+      },
+   disable = { "html" },
+   }
+}
 require("onedarkpro").setup{
   -- Theme can be overwritten with 'onedark' or 'onelight' as a string
   colors = {}, -- Override default colors by specifying colors for 'onelight' or 'onedark' themes
@@ -87,7 +107,7 @@ require("onedarkpro").setup{
       undercurl = true, -- Use the themes opinionated undercurl styles?
       cursorline = true, -- Use cursorline highlighting?
       transparency = false, -- Use a transparent background?
-      terminal_colors = true, -- Use the theme's colors for Neovim's :terminal?
+      terminal_colors = false, -- Use the theme's colors for Neovim's :terminal?
       window_unfocussed_color = false, -- When the window is out of focus, change the normal background?
   }
 }
@@ -683,7 +703,7 @@ nnoremap <C-b> :NeoTreeFloatToggle buffers<CR>
 " au FileType cpp vsplit input.txt
 " au VimEnter * :wincmd l
 " au VimEnter * :vertical resize +40 noremap <C-r>
-" vnoremap r "hy:%s/<C-r>h//gc<left><left><left>
+" vnoremap r ":%s/<C-r>h//gc<left><left><left>
 " autocmd! FileType vsplit wincmd R
 " nnoremap <leader>jj :vsp input.txt<cr>:vertical resize -40<cr>:TwilightEnable<cr>
 " nnoremap <leader>r :NvimTreeRefresh<CR>
@@ -703,13 +723,15 @@ let g:nvim_tree_auto_open = 1 " will open the tree when the package is loaded.
 let g:airline#extensions#tabline#enabled = 1
 let g:AutoPairsFlyMode = 0
 function! s:SetupGhostBuffer()
-    if match(expand("%:a"), '\v/ghost-(github|reddit)\.com-')
-        set ft=cpp
-    endif
+   if match(expand("%:a"), '\v/ghost-(github|reddit)\.com-')
+      set ft=cpp
+   endif
 endfunction
 
 augroup vim-ghost
-    au!
-    au User vim-ghost#connected call s:SetupGhostBuffer()
+   au!
+   au User vim-ghost#connected call s:SetupGhostBuffer()
 augroup END
+autocmd FileType * highlight rainbowcol1 guifg=#FF7B72 gui=bold
+nnoremap <silent> f :HopWord<cr>
 " let g:indentLine_char = '❯'
