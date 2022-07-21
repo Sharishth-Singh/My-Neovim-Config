@@ -21,10 +21,6 @@ set completeopt=longest,menuone
 set t_Co=256
 set textwidth=79
 let g:nvim_tree_auto_close = 1
-" let s:fontsize = 16
-" autocmd GuiFont Hack:h18
-" autocmd BufWritePre * %s/\s\+$//e
-" autocmd BufWritePre * %s/\n\+\%$//e
 
 call plug#begin('~/.local/share/nvim/plugged')
 Plug 'phaazon/hop.nvim'
@@ -47,7 +43,6 @@ Plug 'tpope/vim-surround'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'jackguo380/vim-lsp-cxx-highlight'
 Plug 'sonph/onehalf', { 'rtp': 'vim' }
-" Plug 'projekt0n/github-nvim-theme' " theme
 Plug 'vim-airline/vim-airline' " the statusbar
 Plug 'vim-airline/vim-airline-themes'
 Plug 'yggdroot/indentline'
@@ -71,12 +66,6 @@ rainbow = {
       "#68a0b0",
       "#946EaD",
       "#c7aA6D",
-      -- "Gold",
-      -- "Orchid",
-      -- "DodgerBlue",
-      -- "Cornsilk",
-      -- "Salmon",
-      -- "LawnGreen",
       },
    disable = { "html" },
    }
@@ -475,10 +464,6 @@ else
   inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 endif
 
-" let g:cursorword_min_width = 1
-" let g:cursorword_max_width = 50
-
-" hi default cursorword cterm=underline gui=underline
 
 autocmd insertleave * :set norelativenumber
 autocmd insertenter * :set relativenumber
@@ -500,225 +485,36 @@ require'nvim-treesitter'.define_modules {
       is_supported = function(lang)
       -- Check if the language is supported
       end
+      },
+   rainbow = {
+      enable = true,
+      colors = {
+         "#68a0b0",
+         "#946EaD",
+         "#c7aA6D",
+         },
+      disable = { "html" },
       }
    }
 EOF
 
-" require'nvim-tree'.setup { -- BEGIN_DEFAULT_OPTS
-" auto_reload_on_write = true,
-" create_in_closed_folder = false,
-" disable_netrw = false,
-" hijack_cursor = false,
-" hijack_netrw = true,
-" hijack_unnamed_buffer_when_opening = false,
-" ignore_buffer_on_setup = false,
-" open_on_setup = false,
-" open_on_setup_file = false,
-" open_on_tab = false,
-" sort_by = "name",
-" update_cwd = false,
-" reload_on_bufenter = false,
-" respect_buf_cwd = false,
-" view = {
-"    adaptive_size = false,
-"    centralize_selection = false,
-"    width = 30,
-"    height = 30,
-"    hide_root_folder = false,
-"    side = "right",
-"    preserve_window_proportions = true,
-"    number = false,
-"    relativenumber = false,
-"    signcolumn = "yes",
-"    mappings = {
-"       custom_only = false,
-"       list = {
-"          -- user mappings go here
-"          },
-"       },
-"    },
-" renderer = {
-"    add_trailing = false,
-"    group_empty = false,
-"    highlight_git = true,
-"    full_name = false,
-"    highlight_opened_files = "none",
-"    root_folder_modifier = ":~",
-"    indent_markers = {
-"       enable = false,
-"       icons = {
-"          corner = "└ ",
-"          edge = "│ ",
-"          item = "│ ",
-"          none = "  ",
-"          },
-"       },
-"    icons = {
-"       webdev_colors = true,
-"       git_placement = "before",
-"       padding = " ",
-"       symlink_arrow = " ➛ ",
-"       show = {
-"          file = true,
-"          folder = true,
-"          folder_arrow = true,
-"          git = true,
-"          },
-"       glyphs = {
-"          default = "",
-"          symlink = "",
-"          folder = {
-"             arrow_closed = "",
-"             arrow_open = "",
-"             default = "",
-"             open = "",
-"             empty = "",
-"             empty_open = "",
-"             symlink = "",
-"             symlink_open = "",
-"             },
-"          git = {
-"             unstaged = "✗",
-"             staged = "✓",
-"             unmerged = "",
-"             renamed = "➜",
-"             untracked = "★",
-"             deleted = "",
-"             ignored = "◌",
-"             },
-"          },
-"       },
-"    special_files = { "Cargo.toml", "Makefile", "README.md", "readme.md" },
-"    },
-" hijack_directories = {
-"    enable = true,
-"    auto_open = true,
-"    },
-" update_focused_file = {
-"    enable = false,
-"    update_cwd = false,
-"    ignore_list = {},
-"    },
-" ignore_ft_on_setup = {},
-" system_open = {
-"    cmd = "",
-"    args = {},
-"    },
-" diagnostics = {
-"    enable = false,
-"    show_on_dirs = false,
-"    icons = {
-"       hint = "",
-"       info = "",
-"       warning = "",
-"       error = "",
-"       },
-"    },
-" filters = {
-"    dotfiles = false,
-"    custom = {},
-"    exclude = {},
-"    },
-" filesystem_watchers = {
-"    enable = false,
-"    interval = 100,
-"    },
-" git = {
-"    enable = true,
-"    ignore = true,
-"    timeout = 400,
-"    },
-" actions = {
-"    use_system_clipboard = true,
-"    change_dir = {
-"       enable = true,
-"       global = false,
-"       restrict_above_cwd = false,
-"       },
-"    expand_all = {
-"       max_folder_discovery = 300,
-"       },
-"    open_file = {
-"       quit_on_open = false,
-"       resize_window = true,
-"       window_picker = {
-"          enable = true,
-"          chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
-"          exclude = {
-"             filetype = { "notify", "packer", "qf", "diff", "fugitive", "fugitiveblame" },
-"             buftype = { "nofile", "terminal", "help" },
-"             },
-"          },
-"       },
-"    remove_file = {
-"       close_window = true,
-"       },
-"    },
-" trash = {
-"    cmd = "gio trash",
-"    require_confirm = true,
-"    },
-" live_filter = {
-"    prefix = "[FILTER]: ",
-"    always_show_folders = true,
-"    },
-" log = {
-"    enable = false,
-"    truncate = false,
-"    types = {
-"       all = false,
-"       config = false,
-"       copy_paste = false,
-"       diagnostics = false,
-"       git = false,
-"       profile = false,
-"       watcher = false,
-"       },
-"    },
-" } -- END_DEFAULT_OPTS
-
-" require'nvim-treesitter.configs'.setup {
-"   rainbow = {
-"     enable = true
-"   }
-" }
-
-" autocmd insertleave * :%s/\s\+$//e
 map <a-h> <c-w>h
 map <a-j> <c-w>j
 map <a-k> <c-w>k
 map <a-l> <c-w>l
 map w b
-"let g:airline_theme = 'onehalfdark'
-" let g:airline_theme = 'dracula'
 let g:airline_theme = 'onedark'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
-" autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
 au FocusLost * :wa
-" nnoremap <silent>q :q<cr>
 autocmd FileType c,h,cpp,hpp,json nnoremap <buffer> <silent> <leader>gh :ClangdSwitchSourceHeader<CR>
 nnoremap <C-n> :NeoTreeFloatToggle<CR>
 nnoremap <C-b> :NeoTreeFloatToggle buffers<CR>
-" au FileType cpp vsplit input.txt
-" au VimEnter * :wincmd l
-" au VimEnter * :vertical resize +40 noremap <C-r>
-" vnoremap r ":%s/<C-r>h//gc<left><left><left>
-" autocmd! FileType vsplit wincmd R
-" nnoremap <leader>jj :vsp input.txt<cr>:vertical resize -40<cr>:TwilightEnable<cr>
-" nnoremap <leader>r :NvimTreeRefresh<CR>
-" nnoremap <leader>n :NvimTreeFindFile<CR>
-" nnoremap <silent>ff :Neoformat<cr>
-" let g:neoformat_run_all_formatters = 1
-" highlight NvimTreeFolderIcon guibg=blue
-" Twins of word under cursor:
 let g:vim_current_word#highlight_twins = 1
 " The word under cursor:
 let g:vim_current_word#highlight_current_word = 1
 let g:vim_current_word#highlight_only_in_focused_window = 1
 let g:gitblame_enabled = 1
-" hi CurrentWord guifg=#000000 guibg=#444444
-" hi CurrentWordTwins guibg=#444444
 let g:nvim_tree_auto_open = 1 " will open the tree when the package is loaded.
 let g:airline#extensions#tabline#enabled = 1
 let g:AutoPairsFlyMode = 0
@@ -734,4 +530,3 @@ augroup vim-ghost
 augroup END
 autocmd FileType * highlight rainbowcol1 guifg=#FF7B72 gui=bold
 nnoremap <silent> f :HopWord<cr>
-" let g:indentLine_char = '❯'

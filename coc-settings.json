@@ -6,14 +6,7 @@
    "diagnostic.messageTarget": "echo",
    "diagnostic.virtualTextCurrentLineOnly":false,
    "diagnostic.autoRefresh": true,
-   "diagnostic-languageserver.enable": {
-      "type": "boolean",
-      "default": true,
-      "description": "enable this extension?"
-   },
-   "diagnostic-languageserver.formatters": {
-      "type": "object",
-      "default": {},
-      "description": "formatters config same as diagnostic-languageserver's formatters config"
-   }
+   "diagnostic.errorSign": "E",
+   "diagnostic.hintSign": "H",
+   "diagnostic.warningSign": "W"
 }
