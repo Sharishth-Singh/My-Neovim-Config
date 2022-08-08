@@ -426,22 +426,11 @@ noremap <leader>y :'<,'>w !xclip -selection clipboard<cr><cr>
 colorscheme onedarkpro
 let g:vim_monokai_tasty_italic = 1                    " allow italics, set this before the colorscheme
 " let g:neoformat_basic_format_align = 1 " let g:cpp_class_scope_highlight = 1
-" function! s:check_back_space() abort
-"    let col = col('.') - 1
-"    return !col || getline('.')[col - 1]  =~ '\s'
-" endfunction
-
-" inoremap <silent><expr> <tab>
-"          pumvisible() ? "\<c-n>" :
-"          <sid>check_back_space() ? "\<tab>" :
-"          coc#refresh()
-
-
 inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+         \ coc#pum#visible() ? coc#pum#next(1):
+         \ <SID>check_back_space() ? "\<Tab>" :
+         \ coc#refresh()
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
 function! s:check_back_space() abort
   let col = col('.') - 1
@@ -455,15 +444,9 @@ else
   inoremap <silent><expr> <c-@> coc#refresh()
 endif
 
-" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
-" position. Coc only does snippet and additional edit on confirm.
-" <cr> could be remapped by other vim plugin, try `:verbose imap <CR>`.
-if exists('*complete_info')
-  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-else
-  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-endif
-
+" Make <CR> auto-select the first completion item and notify coc.nvim to
+" format on enter, <cr> could be remapped by other vim plugin
+inoremap <expr> <cr> coc#pum#visible() ? coc#_select_confirm() : "\<CR>"
 
 autocmd insertleave * :set norelativenumber
 autocmd insertenter * :set relativenumber
@@ -503,10 +486,12 @@ map <a-j> <c-w>j
 map <a-k> <c-w>k
 map <a-l> <c-w>l
 map w b
+nnoremap <leader>jj /solution<cr>
 let g:airline_theme = 'onedark'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 au FocusLost * :wa
+nnoremap <leader>ss :GhostSync<cr>
 autocmd FileType c,h,cpp,hpp,json nnoremap <buffer> <silent> <leader>gh :ClangdSwitchSourceHeader<CR>
 nnoremap <C-n> :NeoTreeFloatToggle<CR>
 nnoremap <C-b> :NeoTreeFloatToggle buffers<CR>
