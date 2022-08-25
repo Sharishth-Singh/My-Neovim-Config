@@ -8,5 +8,6 @@
    "diagnostic.autoRefresh": true,
    "diagnostic.errorSign": "E",
    "diagnostic.hintSign": "H",
-   "diagnostic.warningSign": "W"
+   "diagnostic.warningSign": "W",
+   "diagnostic.enableSign": false
 }
