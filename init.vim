@@ -23,6 +23,7 @@ set textwidth=79
 let g:nvim_tree_auto_close = 1
 
 call plug#begin('~/.local/share/nvim/plugged')
+" Plug 'Shatur/neovim-session-manager'
 Plug 'windwp/windline.nvim'
 Plug 'romgrk/barbar.nvim'
 Plug 'phaazon/hop.nvim'
@@ -49,7 +50,6 @@ Plug 'sonph/onehalf', { 'rtp': 'vim' }
 Plug 'vim-airline/vim-airline-themes'
 Plug 'yggdroot/indentline'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'jiangmiao/auto-pairs'
 Plug 'steelsojka/pears.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'akinsho/bufferline.nvim'
@@ -60,7 +60,7 @@ call plug#end()
 
 autocmd FileType vim :Gitsign toggle_deleted
 lua << EOF
- local windline = require('windline')
+local windline = require('windline')
 local helper = require('windline.helpers')
 local b_components = require('windline.components.basic')
 local state = _G.WindLine.state
@@ -304,7 +304,7 @@ require("onedarkpro").setup{
       keywords = "NONE", -- Style that is applied to keywords
       functions = "NONE", -- Style that is applied to functions
       variables = "NONE", -- Style that is applied to variables
-      virtual_text = "NONE", -- Style that is applied to virtual text
+      virtual_text = "italic", -- Style that is applied to virtual text
   },
   options = {
       bold = false, -- Use the themes opinionated bold styles?
@@ -314,7 +314,7 @@ require("onedarkpro").setup{
       cursorline = true, -- Use cursorline highlighting?
       transparency = false, -- Use a transparent background?
       terminal_colors = false, -- Use the theme's colors for Neovim's :terminal?
-      window_unfocussed_color = false, -- When the window is out of focus, change the normal background?
+      window_unfocused_color = true, -- When the window is out of focus, change the normal background?
   }
 }
 -- require "pears".setup()
@@ -544,7 +544,7 @@ require("neo-tree").setup({
 vim.opt.list = true
 -- vim.opt.listchars:append("space:·")
 -- vim.opt.listchars:append("space:•")
-vim.opt.listchars:append("eol:↴")
+-- vim.opt.listchars:append("eol:↴")
 require("indent_blankline").setup {
    space_char_blankline = " ",
    show_current_context = true,
@@ -631,8 +631,8 @@ augroup end
 nnoremap s :%s//gc<left><left><left>
 
 autocmd filetype * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
-autocmd filetype cpp /solution
-autocmd filetype * :Twilight
+autocmd filetype cpp ?solution
+" autocmd filetype * :Twilight
 autocmd FileType * :TSEnable highlight
 autocmd FileType * :TSDisable indent
 noremap <leader>p :-1r !xclip -o -sel clip<cr>
@@ -702,7 +702,8 @@ map <a-h> <c-w>h
 map <a-j> <c-w>j
 map <a-k> <c-w>k
 map <a-l> <c-w>l
-map w b
+map H b
+map L e
 nnoremap <leader>jj /solution<cr>
 let g:airline_theme = 'onedark'
 let g:airline#extensions#tabline#enabled = 1
@@ -732,15 +733,3 @@ augroup vim-ghost
 augroup END
 autocmd FileType * highlight rainbowcol1 guifg=#FF7B72 gui=bold
 nnoremap <silent> f :HopWord<cr>
-function! StatusDiagnostic() abort
-  let info = get(b:, 'coc_diagnostic_info', {})
-  if empty(info) | return '' | endif
-  let msgs = []
-  if get(info, 'error', 0)
-    call add(msgs, 'E' . info['error'])
-  endif
-  if get(info, 'warning', 0)
-    call add(msgs, 'W' . info['warning'])
-  endif
-  return join(msgs, ' '). ' ' . get(g:, 'coc_status', '')
-endfunction
