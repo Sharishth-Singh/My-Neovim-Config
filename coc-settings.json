@@ -9,5 +9,9 @@
    "diagnostic.errorSign": "E",
    "diagnostic.hintSign": "H",
    "diagnostic.warningSign": "W",
-   "diagnostic.enableSign": false
+   "diagnostic.enableSign": true,
+   "diagnostic.checkCurrentLine": true,
+   "clangd.semanticHighlighting": true,
+   "diagnostic.locationlistUpdate": true,
+   "diagnostic.refreshOnInsertMode": true
 }

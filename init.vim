@@ -24,6 +24,8 @@ let g:nvim_tree_auto_close = 1
 
 call plug#begin('~/.local/share/nvim/plugged')
 " Plug 'Shatur/neovim-session-manager'
+Plug 'projekt0n/github-nvim-theme'
+Plug 'jiangmiao/auto-pairs'
 Plug 'windwp/windline.nvim'
 Plug 'romgrk/barbar.nvim'
 Plug 'phaazon/hop.nvim'
@@ -275,6 +277,7 @@ windline.setup({
         explorer,
     },
 })
+require('github-theme').setup()
 require'hop'.setup { keys = 'etovxqpdygfblzhckisuran' }
 require("nvim-treesitter.configs").setup{
 rainbow = {
@@ -638,9 +641,9 @@ autocmd FileType * :TSDisable indent
 noremap <leader>p :-1r !xclip -o -sel clip<cr>
 noremap <leader>y :'<,'>w !xclip -selection clipboard<cr><cr>
 
-" colorscheme github_*
+colorscheme github_*
 " colorscheme dracula
-colorscheme onedarkpro
+" colorscheme onedarkpro
 let g:vim_monokai_tasty_italic = 1                    " allow italics, set this before the colorscheme
 " let g:neoformat_basic_format_align = 1 " let g:cpp_class_scope_highlight = 1
 inoremap <silent><expr> <TAB>
