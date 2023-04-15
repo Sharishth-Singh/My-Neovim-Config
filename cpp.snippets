@@ -1,3 +1,206 @@
+priority -50
+
+extends c
+
+# We want to overwrite everything in parent ft.
+priority -49
+###########################################################################
+#			    Global functions 						  #
+###########################################################################
+
+global !p
+
+def write_docstring_args(arglist, snip):
+	args = str(arglist).split(',')
+
+	if len(args) > 1:
+		c = 0
+		for arg in args:
+			if c == 0:
+				snip.rv += arg
+				c = 1
+			else:
+				snip += '*       : %s' % arg.strip()
+	else:
+		snip.rv = args[0]
+
+
+endglobal
+
+###########################################################################
+#                            TextMate Snippets                            #
+###########################################################################
+snippet ponce "#pragma once include guard"
+#pragma once
+
+endsnippet
+
+snippet main
+int main(int argc, char *argv[])
+{
+	${0}
+	return 0;
+}
+endsnippet
+
+snippet forc "general for loop (for)"
+for (${6:auto} ${1:i} = ${2:v.begin()}; `!p import re; snip.rv = re.split("[^\w]",t[1])[-1]` ${4:!=} ${3:`!p m = re.search(r'^(?:(.*)(\.|->)begin\(\)|((?:std|boost)::)?begin\((.*)\))$', t[2]); snip.rv = (((m.group(3) if m.group(3) else "") + "end(" + m.group(4) + ")") if m.group(4) else (m.group(1) + m.group(2) + "end()")) if m else ""`}; ${5:++`!p snip.rv = t[1].split(" ")[-1]`}) {
+	${VISUAL}$0
+}
+endsnippet
+
+snippet beginend "$1.begin(), $1.end() (beginend)"
+${1:v}${1/^.*?(-)?(>)?$/(?2::(?1:>:.))/}begin(), $1${1/^.*?(-)?(>)?$/(?2::(?1:>:.))/}end()
+endsnippet
+
+snippet cl "class .. (class)"
+class ${1:`!p snip.rv = snip.basename or "name"`}
+{
+public:
+	${1/(\w+).*/$1/} (${2:arguments});
+	virtual ~${1/(\w+).*/$1/} ();
+
+private:
+	${0:/* data */}
+};
+endsnippet
+
+snippet ns "namespace .. (namespace)"
+namespace${1/.+/ /m}${1:`!p snip.rv = snip.basename or "name"`}
+{
+	${VISUAL}$0
+}${1/.+/ \/* /m}$1${1/.+/ *\/ /m}
+endsnippet
+
+snippet nsa "namespace alias"
+namespace ${1:alias} = ${2:namespace};
+endsnippet
+
+snippet using "using directive/using declaration/type alias"
+using ${1:namespace}`!p snip.rv = ' ' if t[1] == 'namespace' else ' = ' if t[1] != '' else ''`${2:name};
+endsnippet
+
+snippet readfile "read file (readF)"
+std::vector<char> v;
+if (FILE *fp = fopen(${1:"filename"}, "r"))
+{
+	char buf[1024];
+	while(size_t len = fread(buf, 1, sizeof(buf), fp))
+		v.insert(v.end(), buf, buf + len);
+	fclose(fp);
+}
+endsnippet
+
+snippet map "std::map (map)"
+std::map<${1:key}, ${2:value}> map$0;
+endsnippet
+
+snippet vector "std::vector (v)"
+std::vector<${1:char}> v$0;
+endsnippet
+
+snippet tp "template <typename ..> (template)"
+template <typename ${1:_InputIter}>
+endsnippet
+
+snippet cla "An entire .h generator" b
+#ifndef ${2:`!v substitute(vim_snippets#Filename('$1_H','ClassName'),'.*','\U&\E','')`}
+#define $2
+
+class ${1:`!v substitute(substitute(vim_snippets#Filename('$1','ClassName'),'^.','\u&',''), '_\(\w\)', '\u\1', 'g')`}
+{
+private:
+	$3
+
+public:
+	$1();
+	virtual ~$1();
+};
+
+#endif /* $2 */
+endsnippet
+
+
+snippet fnc "Basic c++ doxygen function template" b
+/**
+* @brief: ${4:brief}
+*
+* @param: `!p write_docstring_args(t[3],snip)`
+*
+* @return: `!p snip.rv = t[1]`
+*/
+${1:ReturnType} ${2:FunctionName}(${3:param})
+{
+	${0:FunctionBody}
+}
+endsnippet
+
+snippet boost_test "Boost test module" b
+#define BOOST_TEST_MODULE ${1:TestModuleName}
+#include <boost/test/included/unit_test.hpp>
+
+BOOST_AUTO_TEST_CASE(${2:TestCaseName})
+{
+	${0:TestDefinition}
+}
+
+endsnippet
+
+snippet boost_suite "Boost test suite module" b
+#define BOOST_TEST_MODULE ${1:TestModuleName}
+#include <boost/test/included/unit_test.hpp>
+
+BOOST_AUTO_TEST_SUITE(${2:SuiteName})
+
+BOOST_AUTO_TEST_CASE(${3:TestCaseName})
+{
+	${0:TestDefinition}
+}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+endsnippet
+snippet boost_test_fixture "Boost test module with fixture" b
+#define BOOST_TEST_MODULE ${1:TestModuleName}
+#include <boost/test/included/unit_test.hpp>
+
+struct ${2:FixtureName} {
+	$2() {}
+	virtual ~$2() {}
+	/* define members here */
+};
+
+BOOST_FIXTURE_TEST_CASE(${3:SuiteName}, $2)
+{
+	${0:TestDefinition}
+}
+
+endsnippet
+
+snippet boost_suite_fixture "Boost test suite with fixture" b
+#define BOOST_TEST_MODULE ${1:TestModuleName}
+#include <boost/test/included/unit_test.hpp>
+
+struct ${2:FixtureName} {
+	$2() {}
+	virtual ~$2() {}
+	/* define members here */
+};
+
+BOOST_FIXTURE_TEST_SUITE(${3:SuiteName}, $2)
+
+BOOST_AUTO_TEST_CASE(${4:TestCaseName})
+{
+	${0:TestDefinition}
+}
+
+BOOST_AUTO_TEST_SUITE_END()
+
+endsnippet
+# vim:ft=snippets:
+
+
+
 snippet snip "Description" b
 	/*yes*/
 endsnippet
@@ -283,6 +486,67 @@ snippet theory
    */
 endsnippet
 
+snippet segment_tree "Description" b
+int n;
+int n_;
+int *arr;
+
+void segment_tree(){
+   int start = 1;
+   while(start < n)
+   {
+      cerr << "---" <<start <<"---"<< endl;
+      start *= 2;
+   }
+   cerr << "---" <<start <<"---"<< endl;
+   /* int start = power(2,ceil(log2(n)),MOD); */
+   int size = 2*start-1;
+   n_ = start;
+   cerr << size << endl;
+   arr = new int[size];
+   for (int i = start-1; i < start + n-1; i++) {
+      cin >> arr[i];
+   }
+   for (int i = size-1; i >= 0; i-=2) {
+      arr[( i/2 )-1] = arr[i] + arr[i-1];
+   }
+   /* for (int i = 0; i < size; i++) { */
+   /*    std::cout << arr[i] << " "; */
+   /* } */
+   /* std::cout << endl; */
+}
+
+
+int sum (int a,int b){
+   a += n_,b+=n_;
+   int s=0;
+   while(a<=b){
+      if(( a )%2 == 1)
+      {
+         s += arr[a-1];
+         a++;
+      }
+      if(( b )%2 == 0)
+      {
+         s += arr[b-1];
+         b--;
+      }
+      a /= 2,b /= 2;
+   }
+   return s;
+}
+
+void add(int k,int x){
+   k += n_;
+   arr[k-1] = x;
+   k /= 2;
+   while(k != 0){
+      arr[k-1] = arr[2*k-1] + arr[2*k];
+      k /= 2;
+   }
+}
+endsnippet
+
 snippet printDivisors
 
 vector<int> printDivisors(int n) {
@@ -511,6 +775,7 @@ typedef tree <pair<int, int>,null_type,less<pair<int, int>>,rb_tree_tag,tree_ord
 #define MOD 1000000007
 #define parr(x)cerr << "\033[40m" << typeid(x).name() << " :" << "\033[0m"<< "\033[36m "<< #x << ' ' << '[' << ' ';for (auto z : x)cerr << z << ' ';cerr << ']' << endl
 #define pmap(x)cerr << "\033[40m" << typeid(x).name() << "\033[0m"<< "\033[36m " << #x << ' ' << '{' << ' ';for (auto z : x)cerr << '(' << ' ' << z.first << ' ' << z.second << ' ' << ')' << ' ';cerr << '}' << endl
+#define debug(x)cerr << "\033[40m" << typeid(x).name() << " :" << "\033[0m"<< "\033[36m "<< #x << " " <<  x << endl;
 #define fast ios_base::sync_with_stdio(false);cin.tie(0);cout.tie(0);cerr.tie(0);
 template <typename T> std::string type_name();
 void solution();
@@ -524,9 +789,10 @@ int32_t main(){fast;int test_cases = 1;
       /* std::cout << "Case #"<< a << ": "; */
       solution();
       /* a++; */
-   }cerr << "=====" << endl;cerr << "Time elapsed: " << 1.0 * clock() / CLOCKS_PER_SEC << " s.\n";return 0;}
+   }cerr << "=====" << endl;cerr << "Time elapsed: " << 1.0 * clock() / CLOCKS_PER_SEC << " s.\n";return 0;
+}
 
-/* ================================================================= Code Start =========================================================== */
+/* ================================================================= Global Varible =========================================================== */
 
 int **memorized_dp_array;
 int no_of_vertix = 0;
