@@ -3,7 +3,7 @@
    "coc.preferences.formatOnSaveFiletypes": ["css", "markdown, cpp, json"],
    "suggest.noselect": false,
    "diagnostic.virtualText":true,
-//   "diagnostic.messageTarget": "echo",
+   "diagnostic.messageTarget": "echo",
    "diagnostic.virtualTextCurrentLineOnly":false,
    "diagnostic.autoRefresh": true,
    "diagnostic.errorSign": "E",
@@ -11,7 +11,7 @@
    "diagnostic.warningSign": "W",
    "diagnostic.enableSign": true,
    "diagnostic.checkCurrentLine": true,
-   "clangd.semanticHighlighting": true,
+//   "clangd.semanticHighlighting": true,
    "diagnostic.locationlistUpdate": true,
   "diagnostic.refreshOnInsertMode": true,
   "snippets.ultisnips.pythonPrompt": false

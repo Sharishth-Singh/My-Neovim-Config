@@ -6,7 +6,6 @@ set hidden
 set scrolloff=10
 set ai
 set si
-" set ignorecase
 set clipboard=unnamedplus
 set cursorline
 set termguicolors
@@ -23,14 +22,13 @@ set textwidth=79
 let g:nvim_tree_auto_close = 1
 
 call plug#begin('~/.local/share/nvim/plugged')
-" Plug 'Shatur/neovim-session-manager'
 Plug 'projekt0n/github-nvim-theme'
 Plug 'jiangmiao/auto-pairs'
 Plug 'windwp/windline.nvim'
 Plug 'romgrk/barbar.nvim'
 Plug 'phaazon/hop.nvim'
 Plug 'p00f/nvim-ts-rainbow'
-Plug 'olimorris/onedarkpro.nvim'
+" Plug 'olimorris/onedarkpro.nvim'
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'MunifTanjim/nui.nvim'
 Plug 'nvim-lua/plenary.nvim'
@@ -59,7 +57,7 @@ Plug 'folke/twilight.nvim'
 Plug 'folke/zen-mode.nvim'
 call plug#end()
 
-autocmd FileType vim :Gitsign toggle_deleted
+" autocmd FileType vim :Gitsign toggle_deleted
 
 lua << EOF
   local windline = require('windline')
@@ -288,36 +286,6 @@ lua << EOF
         "#c7aA6D",
         },
     disable = { "html" },
-    }
-  }
-  require("onedarkpro").setup{
-    -- Theme can be overwritten with 'onedark' or 'onelight' as a string
-    colors = {}, -- Override default colors by specifying colors for 'onelight' or 'onedark' themes
-    -- hlgroups = {}, -- Override default highlight groups
-    -- filetype_hlgroups = {}, -- Override default highlight groups for specific filetypes
-    plugins = { -- Override which plugins highlight groups are loaded
-        native_lsp = true,
-        polygot = true,
-        treesitter = true,
-        -- NOTE: Other plugins have been omitted for brevity
-    },
-    styles = {
-        strings = "NONE", -- Style that is applied to strings
-        comments = "italic", -- Style that is applied to comments
-        keywords = "NONE", -- Style that is applied to keywords
-        functions = "NONE", -- Style that is applied to functions
-        variables = "NONE", -- Style that is applied to variables
-        virtual_text = "italic", -- Style that is applied to virtual text
-    },
-    options = {
-        bold = false, -- Use the themes opinionated bold styles?
-        italic = true, -- Use the themes opinionated italic styles?
-        underline = false, -- Use the themes opinionated underline styles?
-        undercurl = true, -- Use the themes opinionated undercurl styles?
-        cursorline = true, -- Use cursorline highlighting?
-        transparency = false, -- Use a transparent background?
-        terminal_colors = false, -- Use the theme's colors for Neovim's :terminal?
-        window_unfocused_color = true, -- When the window is out of focus, change the normal background?
     }
   }
   require('gitsigns').setup {
@@ -642,7 +610,8 @@ colorscheme github_*
 " colorscheme dracula
 " colorscheme onedarkpro
 let g:vim_monokai_tasty_italic = 1                    " allow italics, set this before the colorscheme
-" let g:neoformat_basic_format_align = 1 " let g:cpp_class_scope_highlight = 1
+" let g:neoformat_basic_format_align = 1
+" let g:cpp_class_scope_highlight = 1
 inoremap <silent><expr> <TAB>
          \ coc#pum#visible() ? coc#pum#next(1):
          \ <SID>check_back_space() ? "\<Tab>" :
@@ -723,3 +692,40 @@ let g:airline#extensions#tabline#enabled = 1
 let g:AutoPairsFlyMode = 0
 autocmd FileType * highlight rainbowcol1 guifg=#FF7B72 gui=bold
 nnoremap <silent> f :HopWord<cr>
+
+
+
+
+
+
+
+  " require("onedarkpro").setup{
+  "   -- Theme can be overwritten with 'onedark' or 'onelight' as a string
+  "   colors = {}, -- Override default colors by specifying colors for 'onelight' or 'onedark' themes
+  "   -- hlgroups = {}, -- Override default highlight groups
+  "   -- filetype_hlgroups = {}, -- Override default highlight groups for specific filetypes
+  "   plugins = { -- Override which plugins highlight groups are loaded
+  "       native_lsp = true,
+  "       polygot = true,
+  "       treesitter = true,
+  "       -- NOTE: Other plugins have been omitted for brevity
+  "   },
+  "   styles = {
+  "       strings = "NONE", -- Style that is applied to strings
+  "       comments = "italic", -- Style that is applied to comments
+  "       keywords = "NONE", -- Style that is applied to keywords
+  "       functions = "NONE", -- Style that is applied to functions
+  "       variables = "NONE", -- Style that is applied to variables
+  "       virtual_text = "italic", -- Style that is applied to virtual text
+  "   },
+  "   options = {
+  "       bold = false, -- Use the themes opinionated bold styles?
+  "       italic = true, -- Use the themes opinionated italic styles?
+  "       underline = false, -- Use the themes opinionated underline styles?
+  "       undercurl = true, -- Use the themes opinionated undercurl styles?
+  "       cursorline = true, -- Use cursorline highlighting?
+  "       transparency = false, -- Use a transparent background?
+  "       terminal_colors = false, -- Use the theme's colors for Neovim's :terminal?
+  "       window_unfocused_color = true, -- When the window is out of focus, change the normal background?
+  "   }
+  " }
